@@ -1,31 +1,41 @@
 "use strict";
 
-var controllers = require('./lib/controllers'),
-
+var gm = require('gm').subClass({ imageMagick: true }),
+	fs = require('fs'),
 	plugin = {};
 
-plugin.init = function(params, callback) {
-	var router = params.router,
-		hostMiddleware = params.middleware,
-		hostControllers = params.controllers;
-		
-	// We create two routes for every view. One API call, and the actual route itself.
-	// Just add the buildHeader middleware to your route and NodeBB will take care of everything for you.
+plugin.resize = function(data, callback) {
+	function done(err, stdout, stderr) {
+		callback(err);
+	}
 
-	router.get('/admin/plugins/quickstart', hostMiddleware.admin.buildHeader, controllers.renderAdminPage);
-	router.get('/api/admin/plugins/quickstart', controllers.renderAdminPage);
-
-	callback();
+	if(data.extension === '.gif') {
+		gm().in(data.path)
+			.in('-coalesce')
+			.in('-resize')
+			.in(data.width+'x'+data.height+'^')
+			.write(data.path, done);
+	} else {
+		gm(data.path)
+			.in('-resize')
+			.in(data.width+'x'+data.height+'^')
+			.gravity('Center')
+			.crop(data.width, data.height)
+			.write(data.path, done);
+	}
 };
 
-plugin.addAdminNavigation = function(header, callback) {
-	header.plugins.push({
-		route: '/plugins/quickstart',
-		icon: 'fa-tint',
-		name: 'Quickstart'
-	});
-
-	callback(null, header);
+plugin.normalise = function(data, callback) {
+	if(data.extension !== '.png') {
+		gm(data.path).toBuffer('png', function(err, buffer) {
+			if (err) {
+				return callback(err);
+			}
+			fs.writeFile(data.path, buffer, 'binary', callback);
+		});
+	} else {
+		callback();
+	}
 };
 
 module.exports = plugin;

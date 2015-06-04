@@ -1,11 +1,11 @@
 {
-  "name": "nodebb-plugin-quickstart",
+  "name": "nodebb-plugin-imagemagick",
   "version": "0.0.0",
   "description": "",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/julianlam/nodebb-plugin-quickstart"
+    "url": "https://github.com/julianlam/nodebb-plugin-imagemagick"
   },
   "keywords": [
     "nodebb",
@@ -17,10 +17,13 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/julianlam/nodebb-plugin-quickstart/issues"
+    "url": "https://github.com/julianlam/nodebb-plugin-imagemagick/issues"
   },
   "readmeFilename": "README.md",
   "nbbpm": {
-    "compatibility": "^0.6.0"
+    "compatibility": ">0.7.0"
+  },
+  "dependencies": {
+    "gm": "^1.18.1"
   }
 }
