@@ -8,4 +8,8 @@ NodeBB uses a js-only alternative, which may be slower, or less featureful. Addi
 
 ## Requirements
 
-    * NodeBB v1.0.0 or a suitably recent version
+* NodeBB v1.0.0 or a suitably recent version
+
+## Setup
+
+* None, just install and activate.
