@@ -4,6 +4,7 @@
 	"library": "./library.js",
 	"hooks": [
 		{ "hook": "filter:image.resize", "method": "resize" },
-		{ "hook": "filter:image.normalise", "method": "normalise" }
+		{ "hook": "filter:image.normalise", "method": "normalise" },
+		{ "hook": "filter:uploadImage", "method": "upload" }
 	]
 }
