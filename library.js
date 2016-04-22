@@ -29,19 +29,21 @@ plugin.resize = function(data, callback) {
 		callback(err);
 	}
 
+	var dimensions = (data.width ? data.width: '') + (data.height ? 'x' + data.height : '') + '>';
+
 	if(data.extension === '.gif') {
 		gm().in(data.path)
 			.in('-coalesce')
 			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
-			.write(data.path, done);
+			.in(dimensions)
+			.write(data.target, done);
 	} else {
 		gm(data.path)
 			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
+			.in(dimensions)
 			.gravity('Center')
 			.crop(data.width, data.height)
-			.write(data.path, done);
+			.write(data.target, done);
 	}
 };
 
