@@ -41,8 +41,6 @@ plugin.resize = function(data, callback) {
 		gm(data.path)
 			.in('-resize')
 			.in(dimensions)
-			.gravity('Center')
-			.crop(data.width, data.height)
 			.write(data.target, done);
 	}
 };
