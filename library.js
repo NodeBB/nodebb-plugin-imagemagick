@@ -36,12 +36,12 @@ plugin.resize = function(data, callback) {
 			.in('-coalesce')
 			.in('-resize')
 			.in(dimensions)
-			.write(data.target, done);
+			.write(data.target || data.path, done);
 	} else {
 		gm(data.path)
 			.in('-resize')
 			.in(dimensions)
-			.write(data.target, done);
+			.write(data.target || data.path, done);
 	}
 };
 
