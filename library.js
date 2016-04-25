@@ -46,16 +46,12 @@ plugin.resize = function(data, callback) {
 };
 
 plugin.normalise = function(data, callback) {
-	if(data.extension !== '.png') {
-		gm(data.path).toBuffer('png', function(err, buffer) {
-			if (err) {
-				return callback(err);
-			}
-			fs.writeFile(data.path + '.png', buffer, 'binary', callback);
-		});
-	} else {
-		callback();
-	}
+	gm(data.path).toBuffer('png', function(err, buffer) {
+		if (err) {
+			return callback(err);
+		}
+		fs.writeFile(data.path + '.png', buffer, 'binary', callback);
+	});
 };
 
 plugin.filetypeAllowed = function(data, callback) {
