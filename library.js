@@ -34,6 +34,24 @@ plugin.resize = function(data, callback) {
 	}
 };
 
+plugin.size = function(data, callback) {
+	gm(data.path).size(function (err, size) {
+		if (err) {
+			return callback(err);
+		}
+		var image = {
+			path: data.path,
+			width: size.width,
+			height: size.height
+		};
+		callback(null, image);
+	});
+};
+
+plugin.fileTypeAllowed = function(path, callback) {
+	callback();
+};
+
 plugin.normalise = function(data, callback) {
 	if(data.extension !== '.png') {
 		gm(data.path).toBuffer('png', function(err, buffer) {
