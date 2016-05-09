@@ -1,9 +1,20 @@
 "use strict";
 
-var os = require('os'),
-	gm = require('gm').subClass({ imageMagick: true }),
-	fs = require('fs'),
-	plugin = {};
+var os = require('os');
+var gm = require('gm').subClass({ imageMagick: true });
+var fs = require('fs');
+
+var nconf = module.parent.require('nconf');
+var path = module.parent.require('path');
+var validator = module.parent.require('validator');
+var winston = module.parent.require('winston');
+var async = module.parent.require('async');
+
+var meta = module.parent.require('./meta');
+var file = module.parent.require('./file');
+var plugins = module.parent.require('./plugins');
+
+var plugin = {};
 
 if (os.platform() === 'linux') {
 	require('child_process').exec('/usr/bin/which convert', function(err, stdout, stderr) {
@@ -18,33 +29,33 @@ plugin.resize = function(data, callback) {
 		callback(err);
 	}
 
+	var dimensions = (data.width ? data.width: '') + (data.height ? 'x' + data.height : '') + '>';
+
 	if(data.extension === '.gif') {
 		gm().in(data.path)
 			.in('-coalesce')
 			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
+			.in(dimensions)
 			.write(data.target || data.path, done);
 	} else {
 		gm(data.path)
 			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
-			.gravity('Center')
-			.crop(data.width, data.height)
+			.in(dimensions)
 			.write(data.target || data.path, done);
 	}
 };
 
 plugin.normalise = function(data, callback) {
-	if(data.extension !== '.png') {
-		gm(data.path).toBuffer('png', function(err, buffer) {
-			if (err) {
-				return callback(err);
-			}
-			fs.writeFile(data.path, buffer, 'binary', callback);
-		});
-	} else {
-		callback();
-	}
+	gm(data.path).toBuffer('png', function(err, buffer) {
+		if (err) {
+			return callback(err);
+		}
+		fs.writeFile(data.path + '.png', buffer, 'binary', callback);
+	});
+};
+
+plugin.filetypeAllowed = function(data, callback) {
+	return callback(null);
 };
 
 module.exports = plugin;
