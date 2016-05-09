@@ -23,14 +23,14 @@ plugin.resize = function(data, callback) {
 			.in('-coalesce')
 			.in('-resize')
 			.in(data.width+'x'+data.height+'^')
-			.write(data.path, done);
+			.write(data.target || data.path, done);
 	} else {
 		gm(data.path)
 			.in('-resize')
 			.in(data.width+'x'+data.height+'^')
 			.gravity('Center')
 			.crop(data.width, data.height)
-			.write(data.path, done);
+			.write(data.target || data.path, done);
 	}
 };
 
