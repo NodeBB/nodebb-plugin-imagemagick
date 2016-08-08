@@ -21,15 +21,11 @@ plugin.resize = function(data, callback) {
 	if(data.extension === '.gif') {
 		gm().in(data.path)
 			.in('-coalesce')
-			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
+			.resize(data.width || null, data.height || null)
 			.write(data.target || data.path, done);
 	} else {
 		gm(data.path)
-			.in('-resize')
-			.in(data.width+'x'+data.height+'^')
-			.gravity('Center')
-			.crop(data.width, data.height)
+			.resize(data.width || null, data.height || null)
 			.write(data.target || data.path, done);
 	}
 };
