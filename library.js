@@ -45,7 +45,9 @@ plugin.size = function(data, callback) {
 };
 
 plugin.fileTypeAllowed = function(path, callback) {
-	callback();
+	gm(path).size(function(err, value){
+		callback(err);
+	});
 };
 
 plugin.normalise = function(data, callback) {
