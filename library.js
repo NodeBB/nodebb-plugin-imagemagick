@@ -1,12 +1,13 @@
 "use strict";
 
-var os = require('os'),
-	gm = require('gm').subClass({ imageMagick: true }),
-	fs = require('fs'),
-	plugin = {};
+var os = require('os');
+var gm = require('gm').subClass({ imageMagick: true });
+var fs = require('fs');
+var winston = require('winston');
+var plugin = {};
 
 if (os.platform() === 'linux') {
-	require('child_process').exec('/usr/bin/which convert', function(err, stdout, stderr) {
+	require('child_process').exec('/usr/bin/which convert', function(err, stdout) {
 		if(err || !stdout) {
 			winston.warn('Couldn\'t find convert. Did you install imagemagick?');
 		}
@@ -14,7 +15,7 @@ if (os.platform() === 'linux') {
 }
 
 plugin.resize = function(data, callback) {
-	function done(err, stdout, stderr) {
+	function done(err) {
 		callback(err);
 	}
 
@@ -45,7 +46,7 @@ plugin.size = function(data, callback) {
 };
 
 plugin.fileTypeAllowed = function(path, callback) {
-	gm(path).size(function(err, value){
+	gm(path).size(function(err){
 		callback(err);
 	});
 };

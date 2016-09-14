@@ -24,6 +24,7 @@
     "compatibility": ">1.1.0"
   },
   "dependencies": {
-    "gm": "^1.18.1"
+    "gm": "^1.18.1",
+    "winston": "^2.1.0"
   }
 }
