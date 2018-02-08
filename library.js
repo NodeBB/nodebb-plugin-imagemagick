@@ -8,7 +8,7 @@ var plugin = {};
 
 if (os.platform() === 'linux') {
 	require('child_process').exec('/usr/bin/which convert', function(err, stdout) {
-		if(err || !stdout) {
+		if (err || !stdout) {
 			winston.warn('Couldn\'t find convert. Did you install imagemagick?');
 		}
 	});
@@ -19,20 +19,18 @@ plugin.resize = function(data, callback) {
 		callback(err);
 	}
 
-	if(data.extension === '.gif') {
-		gm().in(data.path)
-			.in('-coalesce')
-			.resize(data.width || null, data.height || null)
-			.write(data.target || data.path, done);
-	} else {
-		gm(data.path)
-			.resize(data.width || null, data.height || null)
-			.write(data.target || data.path, done);
+	var img = gm(data.path);
+	if (data.extension === '.gif') {
+		img = img.coalesce();
 	}
+
+	img.autoOrient()
+		.resize(data.width || null, data.height || null)
+		.write(data.target || data.path, done);
 };
 
 plugin.size = function(data, callback) {
-	gm(data.path).size(function (err, size) {
+	gm(data.path).autoOrient().size(function (err, size) {
 		if (err) {
 			return callback(err);
 		}
@@ -52,7 +50,7 @@ plugin.fileTypeAllowed = function(path, callback) {
 };
 
 plugin.normalise = function(data, callback) {
-	gm(data.path).toBuffer('png', function(err, buffer) {
+	gm(data.path).autoOrient().toBuffer('png', function(err, buffer) {
 		if (err) {
 			return callback(err);
 		}
