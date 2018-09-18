@@ -20,7 +20,7 @@ plugin.resize = function(data, callback) {
 	}
 
 	var img = gm(data.path);
-	if (data.extension === '.gif') {
+	if (data.path.endsWith('.gif')) {
 		img = img.coalesce();
 	}
 
