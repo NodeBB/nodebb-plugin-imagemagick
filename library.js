@@ -15,10 +15,6 @@ if (os.platform() === 'linux') {
 }
 
 plugin.resize = function(data, callback) {
-	function done(err) {
-		callback(err);
-	}
-
 	var img = gm(data.path);
 	if (data.path.endsWith('.gif')) {
 		img = img.coalesce();
@@ -26,7 +22,9 @@ plugin.resize = function(data, callback) {
 
 	img.autoOrient()
 		.resize(data.width || null, data.height || null)
-		.write(data.target || data.path, done);
+		.write(data.target || data.path, function (err) {
+			callback(err);
+		});
 };
 
 plugin.size = function(data, callback) {

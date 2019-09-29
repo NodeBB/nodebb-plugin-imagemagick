@@ -6,6 +6,6 @@
 		{ "hook": "filter:image.resize", "method": "resize" },
 		{ "hook": "filter:image.size", "method": "size" },
 		{ "hook": "filter:image.normalise", "method": "normalise" },
-		{ "hook": "filter:file.isFileTypeAllowed", "method": "fileTypeAllowed" }
+		{ "hook": "filter:image.isFileTypeAllowed", "method": "fileTypeAllowed" }
 	]
 }
