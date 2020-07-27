@@ -3,7 +3,7 @@
 var os = require('os');
 var gm = require('gm').subClass({ imageMagick: true });
 var fs = require('fs');
-var winston = require('winston');
+const winston = require.main.require('winston');
 var plugin = {};
 
 if (os.platform() === 'linux') {
