@@ -1,7 +1,7 @@
 "use strict";
 
 var os = require('os');
-var gm = require('gm').subClass({ imageMagick: true });
+var gm = require('gm').subClass({ imageMagick: '7+' });
 var fs = require('fs');
 const winston = require.main.require('winston');
 var plugin = {};
@@ -22,13 +22,13 @@ plugin.resize = function(data, callback) {
 
 	img.autoOrient()
 		.resize(data.width || null, data.height || null)
-		.write(data.target || data.path, function (err) {
+		.write(data.target || data.path, function(err) {
 			callback(err);
 		});
 };
 
 plugin.size = function(data, callback) {
-	gm(data.path).autoOrient().size(function (err, size) {
+	gm(data.path).autoOrient().size(function(err, size) {
 		if (err) {
 			return callback(err);
 		}
@@ -42,7 +42,7 @@ plugin.size = function(data, callback) {
 };
 
 plugin.fileTypeAllowed = function(path, callback) {
-	gm(path).size(function(err){
+	gm(path).size(function(err) {
 		callback(err);
 	});
 };
